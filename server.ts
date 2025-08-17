@@ -1,8 +1,7 @@
-// const fastify = require('fastify')
-// const crypto = require('crypto')
-
 import fastify from "fastify"
-import crypto from 'node:crypto'
+import {eq} from 'drizzle-orm'
+import { db } from "./src/database/client.ts"
+import { courses } from "./src/database/schema.ts"
 
 const server = fastify({
     logger: {
@@ -16,18 +15,14 @@ const server = fastify({
     }
 })
 
-const courses = [
-    { id: '1', title: 'Curso de Node.js' },
-    { id: '2', title: 'Curso de React' },
-    { id: '3', title: 'Curso de React Native' },
 
-]
+server.get('/courses', async (request, replay) => {
+    const result = await db.select().from(courses)
 
-server.get('/courses', () => {
-    return { courses }
+    return replay.send({courses: result})
 })
 
-server.get('/courses/:id', (request, replay) => {
+server.get('/courses/:id', async(request, replay) => {
     type Params = {
         id: string
     }
@@ -35,54 +30,64 @@ server.get('/courses/:id', (request, replay) => {
     const params = request.params as Params
     const courseID = params.id
 
-    const course = courses.find(course => course.id === courseID)
+    const result = await db
+    .select()
+    .from(courses)
+    .where(eq(courses.id,courseID))
 
-    if (course) {
-        return { course }
+    if (result.length > 0) {
+        return replay.status(200).send({ course: result[0] })
     }
 
     return replay.status(404).send()
 })
 
-server.post('/courses', (request, reply) => {
+server.post('/courses', async (request, reply) => {
     type Body = {
         title: string
+        description: string
     }
 
-    const coursedID = crypto.randomUUID()
     const body = request.body as Body
     const courseTitle = body.title
+    const courseDescription = body.description
 
     if (!courseTitle) {
         return reply.status(400).send({ message: 'Título Obrigatorio.' })
     }
 
-    courses.push({ id: coursedID, title: courseTitle })
+    const result = await db.
+    insert(courses)
+    .values({
+        title: courseTitle,
+        description: courseDescription,})
+    .returning()
 
-    return reply.status(201).send({ coursedID })
+    return reply.status(201).send({ coursedID: result[0].id })
 })
 
-server.delete('/courses/:id', (request, replay) => {
+server.delete('/courses/:id', async (request, replay) => {
     type Params = {
         id: string
     }
 
     const params = request.params as Params
     const courseID = params.id
-    const courseIndex = courses.findIndex(course => course.id === courseID)
+    
+    const result = await db.delete(courses).where(eq(courses.id,courseID)).returning()
 
     
-    if(courseIndex > -1){
-        courses.splice(courseIndex,1)
-        return replay.status(200).send()
+    if(result.length > 0){
+        return replay.status(200).send({coursesDeleted: result})
     }
 
     return replay.status(404).send()
 })
 
-server.patch('/courses/:id', (request, replay) => {
+server.patch('/courses/:id', async (request, replay) => {
     type Body = {
         title: string
+        description: string
     }
     type Params = {
         id: string
@@ -92,12 +97,20 @@ server.patch('/courses/:id', (request, replay) => {
     const body = request.body as Body
     const courseID = params.id
     const courseTitle = body.title
+    const courseDescription = body.description
 
-    const courseIndex = courses.findIndex(course => course.id === courseID)
+    if(!courseTitle && !courseDescription){
+        return replay.status(400).send({messege: "Titulo ou descrição deve ser informado para realizar a atualização!"})
+    }
 
-    if(courseIndex > -1){
-        courses[courseIndex].title = courseTitle
-        return replay.status(200).send()
+    const result = await db
+    .update(courses)
+    .set({title: courseTitle, description: courseDescription})
+    .where(eq(courses.id, courseID))
+    .returning()
+
+    if(result.length > 0){
+        return replay.status(200).send({courseUpdate: result[0]})
     }
     return replay.status(404).send()
 })

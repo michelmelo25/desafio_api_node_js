@@ -11,8 +11,17 @@ GET http://localhost:3333/courses
 
 ###
 
-GET http://localhost:3333/courses/b9285bb3-9d78-4bb4-8f17-48abec1d6911
+GET http://localhost:3333/courses/f3509744-eaf2-49bd-8879-232ad3213d23
 
 ###
 
-DELETE http://localhost:3333/courses/4
+DELETE http://localhost:3333/courses/0887e613-0c4f-43c6-a4db-eb9353db0d1b
+
+###
+
+PATCH  http://localhost:3333/courses/0887e613-0c4f-43c6-a4db-eb9353db0d1b
+Content-Type: application/json
+
+{
+    
+}
