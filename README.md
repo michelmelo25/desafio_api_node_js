@@ -45,9 +45,48 @@ Você pode utilizar o arquivo `requisicoes.http` para testar os endpoints direta
 
 ## Endpoints
 
-- `POST /courses` - Cria um novo curso
-- `GET /courses` - Lista todos os cursos
-- `GET /courses/:id` - Busca um curso pelo ID
+### POST /courses
+
+Cria um novo curso no banco de dados.
+
+- **Body:**
+  - `title` (string, obrigatório, mínimo 5 caracteres): Título do curso
+  - `description` (string, opcional): Descrição do curso
+- **Respostas:**
+  - `201`: Curso criado com sucesso, retorna o `courseId`
+  - `400`: Parâmetro obrigatório não informado
+
+### GET /courses
+
+Lista todos os cursos cadastrados, com suporte a busca, ordenação e paginação.
+
+- **Query params:**
+  - `search` (string, opcional): Busca por título
+  - `orderBy` (string, opcional, default: "title"): Campo para ordenação
+  - `page` (number, opcional, default: 1): Página da listagem
+  - `limite` (number, opcional, default: 10): Quantidade de cursos por página
+- **Respostas:**
+  - `200`: Retorna lista de cursos e total de cursos encontrados
+
+### GET /courses/:id
+
+Busca um curso pelo seu ID.
+
+- **Params:**
+  - `id` (UUID, obrigatório): ID do curso
+- **Respostas:**
+  - `200`: Retorna o curso encontrado
+  - `404`: Curso não encontrado
+
+### DELETE /courses/:id
+
+Deleta um curso pelo seu ID.
+
+- **Params:**
+  - `id` (UUID, obrigatório): ID do curso
+- **Respostas:**
+  - `200`: Retorna o curso deletado
+  - `404`: Curso não encontrado
 
 ## Autor
 

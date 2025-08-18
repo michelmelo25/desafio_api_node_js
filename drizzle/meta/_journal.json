@@ -15,6 +15,34 @@
       "when": 1755459966131,
       "tag": "0001_eminent_skreet",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755543840802,
+      "tag": "0002_tired_magdalene",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1755543964032,
+      "tag": "0003_nice_mandroid",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755546032278,
+      "tag": "0004_square_morg",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1755547585919,
+      "tag": "0005_blue_tarantula",
+      "breakpoints": true
     }
   ]
 }

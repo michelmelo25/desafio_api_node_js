@@ -13,6 +13,7 @@ import { creatCoursesRoute } from "./src/routes/create-course.ts";
 import { getCoursesRoute } from "./src/routes/get-courses.ts";
 import { getCourseByIdRoute } from "./src/routes/get-course-by-id.ts";
 import scalarAPIReference from "@scalar/fastify-api-reference";
+import { deleteCourseByIdRoute } from "./src/routes/delete-course-by-id.ts";
 
 const server = fastify({
   logger: {
@@ -51,28 +52,8 @@ server.setValidatorCompiler(validatorCompiler);
 server.register(creatCoursesRoute);
 server.register(getCoursesRoute);
 server.register(getCourseByIdRoute);
+server.register(deleteCourseByIdRoute);
 //server.register(creatCoursesRoute)
-//server.register(creatCoursesRoute)
-
-server.delete("/courses/:id", async (request, replay) => {
-  type Params = {
-    id: string;
-  };
-
-  const params = request.params as Params;
-  const courseID = params.id;
-
-  const result = await db
-    .delete(courses)
-    .where(eq(courses.id, courseID))
-    .returning();
-
-  if (result.length > 0) {
-    return replay.status(200).send({ coursesDeleted: result });
-  }
-
-  return replay.status(404).send();
-});
 
 server.patch("/courses/:id", async (request, replay) => {
   type Body = {
