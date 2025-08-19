@@ -7,13 +7,13 @@ import {
   jsonSchemaTransform,
 } from "fastify-type-provider-zod";
 import { fastifySwagger } from "@fastify/swagger";
-import { db } from "./src/database/client.ts";
-import { courses } from "./src/database/schema.ts";
-import { creatCoursesRoute } from "./src/routes/create-course.ts";
-import { getCoursesRoute } from "./src/routes/get-courses.ts";
-import { getCourseByIdRoute } from "./src/routes/get-course-by-id.ts";
+import { db } from "./database/client.ts";
+import { courses } from "./database/schema.ts";
+import { creatCoursesRoute } from "./routes/create-course.ts";
+import { getCoursesRoute } from "./routes/get-courses.ts";
+import { getCourseByIdRoute } from "./routes/get-course-by-id.ts";
 import scalarAPIReference from "@scalar/fastify-api-reference";
-import { deleteCourseByIdRoute } from "./src/routes/delete-course-by-id.ts";
+import { deleteCourseByIdRoute } from "./routes/delete-course-by-id.ts";
 
 const server = fastify({
   logger: {
@@ -89,6 +89,4 @@ server.patch("/courses/:id", async (request, replay) => {
   return replay.status(404).send();
 });
 
-server.listen({ port: 3333 }).then(() => {
-  console.log("HTTP server running!");
-});
+export { server };
