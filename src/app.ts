@@ -14,6 +14,7 @@ import { getCoursesRoute } from "./routes/get-courses.ts";
 import { getCourseByIdRoute } from "./routes/get-course-by-id.ts";
 import scalarAPIReference from "@scalar/fastify-api-reference";
 import { deleteCourseByIdRoute } from "./routes/delete-course-by-id.ts";
+import { loginRoute } from "./routes/login.ts";
 
 const server = fastify({
   logger: {
@@ -53,8 +54,8 @@ server.register(creatCoursesRoute);
 server.register(getCoursesRoute);
 server.register(getCourseByIdRoute);
 server.register(deleteCourseByIdRoute);
-//server.register(creatCoursesRoute)
-
+server.register(loginRoute)
+0
 server.patch("/courses/:id", async (request, replay) => {
   type Body = {
     title: string;

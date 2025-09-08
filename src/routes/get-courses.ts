@@ -4,11 +4,15 @@ import { courses, enrollments } from "../database/schema.ts";
 import { ilike, asc, and, SQL, eq, count } from "drizzle-orm";
 import z from "zod";
 import { id } from "zod/locales";
+import { checkRequestJwt } from "./hooks/check-request-jwt.ts";
 
 export const getCoursesRoute: FastifyPluginAsyncZod = async (server) => {
   server.get(
     "/courses",
     {
+      preHandler: [
+        checkRequestJwt,
+      ],
       schema: {
         tags: ["courses"],
         summary: "Busco todos os cursos criados",

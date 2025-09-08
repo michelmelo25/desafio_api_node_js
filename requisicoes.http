@@ -1,20 +1,21 @@
 POST http://localhost:3333/courses
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjNiYWE3My0xNGQzLTQ5NzMtYTgwOS0xNDFmM2U4YWUyYzQiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTc1NzI4ODgzMX0.VFu9ocf0WLJG5sPe88hgOXehDu5RgrPPCT0q9gwwYPE
 
 {
-    "title" : "Curso de Spring Boot",
-    "description" : "Curso de Spring Boot com Java e Hibernate"
+    "title" : "Curso de Node.Js",
+    "description" : "Curso de Node.Js"
 }
 
-###
+### get all courses
 
 GET http://localhost:3333/courses
 
-###
+### get courses by id
+GET http://localhost:3333/courses/021477cc-fb74-4b9f-9331-73a8c4cbb70e
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjNiYWE3My0xNGQzLTQ5NzMtYTgwOS0xNDFmM2U4YWUyYzQiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTc1NzI4ODgzMX0.VFu9ocf0WLJG5sPe88hgOXehDu5RgrPPCT0q9gwwYPE
 
-GET http://localhost:3333/courses/f3509744-eaf2-49bd-8879-232ad3213d23
-
-###
+### delete course by id
 
 DELETE http://localhost:3333/courses/0887e613-0c4f-43c6-a4db-eb9353db0d1b
 
@@ -25,4 +26,14 @@ Content-Type: application/json
 
 {
     
+}
+
+####
+
+POST http://localhost:3333/sessions
+Content-Type: application/json
+
+{
+    "email": "Salvador76@live.com",
+    "password": "123456"
 }
